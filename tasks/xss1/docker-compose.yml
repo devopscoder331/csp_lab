@@ -1,0 +1,25 @@
+services:
+  nginx:
+    image: nginx:1.26.3
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8040:80
+    volumes:
+      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
+    cpus: 1
+    mem_limit: 256M
+    memswap_limit: 256M
+
+  app:
+    image: python:3.11-slim-bookworm
+    container_name: app
+    build:
+      context: app
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    #ports:
+    #  - 5000:5000
+    cpus: 1
+    mem_limit: 256M
+    memswap_limit: 256M
