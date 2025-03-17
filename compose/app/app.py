@@ -2,6 +2,7 @@ from flask import Flask, request, render_template_string, redirect, url_for, mak
 import random
 import secrets
 import string
+from datetime import datetime  # Импортируем модуль datetime
 
 app = Flask(__name__)
 
@@ -42,14 +43,14 @@ def index():
         </head>
         <body>
             <canvas id="canvas"></canvas>
-            <script src="static/animation.js"></script>
+            <script src="{{ url_for('static', filename='animation.js') }}"></script>
 
             <div class="content">
                 <h1>Оставьте комментарий</h1>
                 <p>Ваш никнейм: {{ nickname }}</p>
                 <p>Ваш секретный Cookie: {{ secret }}</p>
                 <p>Текущая дата: <span id="currentDate"></span></p>
-                <form method="POST" action="/comment">
+                <form method="POST" action="/comment" id="commentForm">
                     <textarea name="comment"></textarea><br>
                     <input type="submit" value="Отправить">
                 </form>
@@ -60,20 +61,25 @@ def index():
                     <input type="submit" value="Очистить комментарии">
                 </form>
             </div>
+
             <script>
                 // Функция для отображения текущей даты
                 function showCurrentDate() {
                     const dateElement = document.getElementById('currentDate');
-                    const now = new Date();
-                    const options = { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric', 
-                        hour: '2-digit', 
-                        minute: '2-digit', 
-                        second: '2-digit' 
-                    };
-                    dateElement.textContent = now.toLocaleDateString('ru-RU', options);
+                    if (dateElement) { // Проверяем, что элемент существует
+                        const now = new Date();
+                        const options = { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric', 
+                            hour: '2-digit', 
+                            minute: '2-digit', 
+                            second: '2-digit' 
+                        };
+                        dateElement.textContent = now.toLocaleDateString('ru-RU', options);
+                    } else {
+                        console.error("Элемент с id='currentDate' не найден.");
+                    }
                 }
 
                 // Обновляем дату каждую секунду
@@ -98,8 +104,9 @@ def add_comment():
     if nickname:
         comment = request.form.get('comment')
         if comment:
-            # Добавляем комментарий с указанием никнейма
-            comments.append(f"<strong>{nickname}:</strong> {comment}")
+            # Добавляем комментарий с указанием никнейма и даты
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Форматируем дату и время
+            comments.append(f"<strong>{nickname}</strong> ({current_time}): {comment}")
     # Перенаправляем на главную страницу
     return redirect(url_for('index'))
 
