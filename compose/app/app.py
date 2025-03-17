@@ -31,14 +31,13 @@ def index():
         nickname = random.choice(nes_nicknames)
         secret = generate_secret()
     
-    # Создаем ответ
     response = make_response(render_template_string('''
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Комментарии с геометрией</title>
+            <title>NES Stored XSS</title>
             <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         </head>
         <body>
@@ -105,7 +104,7 @@ def add_comment():
         comment = request.form.get('comment')
         if comment:
             # Добавляем комментарий с указанием никнейма и даты
-            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Форматируем дату и время
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             comments.append(f"<strong>{nickname}</strong> ({current_time}): {comment}")
     # Перенаправляем на главную страницу
     return redirect(url_for('index'))
