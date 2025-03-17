@@ -11,7 +11,7 @@ comments = []
 # Список случайных никнеймов из игр NES
 nes_nicknames = [
     "Mario", "Luigi", "Link", "Zelda", "Samus", "DonkeyKong", "Pikachu", "Kirby", "Fox", "Ness",
-    "CaptainFalcon", "Yoshi", "Bowser", "Peach", "Daisy", "Wario", "Waluigi", "PacMan", "Megaman", "Simon"
+    "CaptainFalcon", "Yoshi", "SegaMega Drive", "Peach", "Daisy", "Wario", "Waluigi", "PacMan", "Megaman", "Nintendo"
 ]
 
 # Функция для генерации случайной строки
@@ -38,40 +38,16 @@ def index():
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Комментарии с геометрией</title>
-            <style>
-                body {
-                    margin: 0;
-                    overflow: hidden;
-                    background: #000;
-                }
-                canvas {
-                    display: block;
-                }
-                .content {
-                    position: absolute;
-                    top: 20px;
-                    left: 20px;
-                    color: white;
-                    text-align: left;
-                    z-index: 1;
-                    background: rgba(0, 0, 0, 0.7);
-                    padding: 20px;
-                    border-radius: 10px;
-                }
-                textarea {
-                    width: 300px;
-                    height: 100px;
-                }
-            </style>
+            <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         </head>
         <body>
-            <canvas id="canvas" width="800" height="600"></canvas>
+            <canvas id="canvas"></canvas>
             <script src="static/animation.js"></script>
 
             <div class="content">
                 <h1>Оставьте комментарий</h1>
                 <p>Ваш никнейм: {{ nickname }}</p>
-                <p>Ваш секрет: {{ secret }}</p>
+                <p>Ваш секретный Cookie: {{ secret }}</p>
                 <form method="POST" action="/comment">
                     <textarea name="comment"></textarea><br>
                     <input type="submit" value="Отправить">

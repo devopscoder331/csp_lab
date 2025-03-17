@@ -1,8 +1,9 @@
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// Устанавливаем размеры canvas (квадрат 300x300)
+canvas.width = 300;
+canvas.height = 300;
 let CANVAS_WIDTH = canvas.width;
 let CANVAS_HEIGHT = canvas.height;
 let centerX = CANVAS_WIDTH / 2;
@@ -18,29 +19,38 @@ const ellipses = [
 ];
 
 function draw() {
-    ctx.fillStyle = "#000111"
+    // Очищаем canvas (светлый фон)
+    ctx.fillStyle = "#f0f0f0"; // Светло-серый фон для canvas
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // Рисуем эллипсы и круги
     ellipses.forEach((ellipse) => {
+        ctx.save(); // Сохраняем текущее состояние контекста
         ctx.translate(centerX, centerY);
         ctx.rotate(ellipse.rotateAngle);
-        // Draw the ellipse
+
+        // Рисуем эллипс
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "#ddd";
+        ctx.strokeStyle = "#333"; // Темно-серый цвет для линий
         ctx.beginPath();
         ctx.ellipse(0, 0, radiusX, radiusY, 0, 0, 2 * Math.PI);
         ctx.stroke();
-        // Calculate circle position based on time
+
+        // Вычисляем позицию круга на основе времени
         const currentAngle = Date.now() * ellipse.speed;
         const circleX = radiusX * Math.cos(currentAngle);
         const circleY = radiusY * Math.sin(currentAngle);
-        // Draw the rotating circle
+
+        // Рисуем вращающийся круг
         ctx.beginPath();
         ctx.arc(circleX, circleY, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = 'blue';
+        ctx.fillStyle = '#007bff'; // Синий цвет для кругов
         ctx.fill();
-        // Reset transformations
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        ctx.restore(); // Восстанавливаем состояние контекста
     });
+
     requestAnimationFrame(draw);
 }
+
 draw();

@@ -10,9 +10,9 @@ services:
       - 8040:80
     volumes:
       - ./proxy/default.conf:/etc/nginx/conf.d/default.conf
-    cpus: 1
-    mem_limit: 256M
-    memswap_limit: 256M
+    cpus: '0.2'
+    mem_limit: 128M
+    memswap_limit: 128M
 
   app:
     image: python:3.11-slim-bookworm
@@ -23,9 +23,9 @@ services:
     restart: unless-stopped
     networks:
       - backend
-    cpus: 1
-    mem_limit: 256M
-    memswap_limit: 256M
+    cpus: '0.2'
+    mem_limit: 128M
+    memswap_limit: 128M
 
 networks:
   frontend:
