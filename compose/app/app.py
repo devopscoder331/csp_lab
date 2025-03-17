@@ -42,7 +42,7 @@ def index():
         </head>
         <body>
             <canvas id="canvas"></canvas>
-            <script src="{{ url_for('static', filename='animation.js') }}"></script>
+            <script src="{{ url_for('static', filename='animation.js') }}" nonce="**CSP_NONCE**" type="text/javascript"></script>
 
             <div class="content">
                 <h1>Оставьте комментарий</h1>
@@ -61,7 +61,7 @@ def index():
                 </form>
             </div>
 
-            <script>
+            <script nonce="**CSP_NONCE**" type="text/javascript">
                 // Функция для отображения текущей даты
                 function showCurrentDate() {
                     const dateElement = document.getElementById('currentDate');
