@@ -3,6 +3,9 @@ services:
     image: nginx:1.26.3
     container_name: nginx
     restart: unless-stopped
+    networks:
+      - frontend
+      - backend
     ports:
       - 8040:80
     volumes:
@@ -18,8 +21,17 @@ services:
       context: app
       dockerfile: Dockerfile
     restart: unless-stopped
-    #ports:
-    #  - 5000:5000
+    networks:
+      - backend
     cpus: 1
     mem_limit: 256M
     memswap_limit: 256M
+
+networks:
+  frontend:
+    driver: bridge
+
+  backend:
+    driver: bridge
+    internal: true
+

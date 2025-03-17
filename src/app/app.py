@@ -32,19 +32,59 @@ def index():
     
     # Создаем ответ
     response = make_response(render_template_string('''
-        <h1>Оставьте комментарий</h1>
-        <p>Ваш никнейм: {{ nickname }}</p>
-        <p>Ваш секрет: {{ secret }}</p>
-        <form method="POST" action="/comment">
-            <textarea name="comment"></textarea><br>
-            <input type="submit" value="Отправить">
-        </form>
-        <h2>Комментарии:</h2>
-        {{ comments|safe }}
-        <br><br>
-        <form method="POST" action="/clear">
-            <input type="submit" value="Очистить комментарии">
-        </form>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Комментарии с геометрией</title>
+            <style>
+                body {
+                    margin: 0;
+                    overflow: hidden;
+                    background: #000;
+                }
+                canvas {
+                    display: block;
+                }
+                .content {
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    color: white;
+                    text-align: left;
+                    z-index: 1;
+                    background: rgba(0, 0, 0, 0.7);
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                textarea {
+                    width: 300px;
+                    height: 100px;
+                }
+            </style>
+        </head>
+        <body>
+            <canvas id="canvas" width="800" height="600"></canvas>
+            <script src="static/animation.js"></script>
+
+            <div class="content">
+                <h1>Оставьте комментарий</h1>
+                <p>Ваш никнейм: {{ nickname }}</p>
+                <p>Ваш секрет: {{ secret }}</p>
+                <form method="POST" action="/comment">
+                    <textarea name="comment"></textarea><br>
+                    <input type="submit" value="Отправить">
+                </form>
+                <h2>Комментарии:</h2>
+                {{ comments|safe }}
+                <br><br>
+                <form method="POST" action="/clear">
+                    <input type="submit" value="Очистить комментарии">
+                </form>
+            </div>
+        </body>
+        </html>
     ''', nickname=nickname, secret=secret, comments="<br>".join(comments)))
     
     # Устанавливаем куки, если они отсутствовали
@@ -74,4 +114,4 @@ def clear_comments():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    app.run(host='0.0.0.0', port=5000)
