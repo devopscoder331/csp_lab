@@ -48,6 +48,7 @@ def index():
                 <h1>Оставьте комментарий</h1>
                 <p>Ваш никнейм: {{ nickname }}</p>
                 <p>Ваш секретный Cookie: {{ secret }}</p>
+                <p>Текущая дата: <span id="currentDate"></span></p>
                 <form method="POST" action="/comment">
                     <textarea name="comment"></textarea><br>
                     <input type="submit" value="Отправить">
@@ -59,6 +60,26 @@ def index():
                     <input type="submit" value="Очистить комментарии">
                 </form>
             </div>
+            <script>
+                // Функция для отображения текущей даты
+                function showCurrentDate() {
+                    const dateElement = document.getElementById('currentDate');
+                    const now = new Date();
+                    const options = { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric', 
+                        hour: '2-digit', 
+                        minute: '2-digit', 
+                        second: '2-digit' 
+                    };
+                    dateElement.textContent = now.toLocaleDateString('ru-RU', options);
+                }
+
+                // Обновляем дату каждую секунду
+                setInterval(showCurrentDate, 1000);
+                showCurrentDate(); // Показываем дату сразу при загрузке страницы
+            </script>
         </body>
         </html>
     ''', nickname=nickname, secret=secret, comments="<br>".join(comments)))
